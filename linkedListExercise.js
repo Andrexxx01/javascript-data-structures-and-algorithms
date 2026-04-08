@@ -889,3 +889,334 @@ let ll5 = createListFromArray([3, 3, 3]);
 runTest(5, "All elements equal to partition", ll5, 3, [3, 3, 3]);
 
 console.log("---------------------------------------");
+
+/*
+
+7. LL: Reverse Between
+⚠️ Advanced Challenge Alert: Linked List Mastery!
+
+Welcome to what many consider the pinnacle of Linked List challenges in this course! 
+This exercise is not just a test of your coding skills, but also a measure of your problem-solving ability and 
+understanding of complex data structures.
+
+Here's how you can tackle it:
+
+Visualize the Problem: 
+Before diving into coding, grab a pen and paper. 
+Sketch out the linked list and visualize each step of the process. 
+This approach isn't just for beginners; it's exactly how seasoned developers plan their attack on complex problems.
+
+Seek Understanding Over Speed: 
+Take your time to really grasp each part of the problem. 
+The goal here is deep understanding, not just a quick solution. 
+If you find yourself stuck, that's a part of the learning process.
+
+It's Okay to Take a Break: 
+Feel free to step away from this challenge and return later. 
+This course is designed to equip you with a growing set of skills, and sometimes, a bit of distance can bring new insights.
+
+Approach Like a Pro: 
+Remember, facing a challenging problem is what being a professional developer is all about. 
+Use this exercise to think, plan, and code like a pro.
+
+Now, let's dive into the exercise:
+___________________________________
+
+Implement a member function called reverseBetween(m, n) that reverses the nodes between indexes (using 0-based indexing)  
+m and n (inclusive) in the linked list.
+
+Note: this linked list class does NOT have a tail which will make this method easier to implement.
+
+Assumption: You can assume that m and n are not out of bounds.
+
+Output:
+
+The function should reverse the nodes between the indexes m and n in the linked list. The reversal should be done in-place.
+
+Constraints:
+
+You are not allowed to use any additional data structures (such as arrays) or modify the existing data structure.
+
+You can only traverse the linked list once.
+
+Example 1:
+
+Suppose you have a LinkedList object, list, with the following values:
+1 -> 2 -> 3 -> 4 -> 5
+
+After calling the reverseBetween(1, 3) function:
+
+list.reverseBetween(1, 3);
+The linked list should now have the following values:
+1 -> 4 -> 3 -> 2 -> 5
+
+Example 2:
+
+Now suppose you have a LinkedList object, list, with the following values:
+1 -> 2 -> 3 -> 4 -> 5 -> 6
+
+After calling the reverseBetween(3, 5) function:
+
+list.reverseBetween(3, 5);
+The linked list should now have the following values:
+1 -> 2 -> 3 -> 6 -> 5 -> 4
+
+*/
+
+class LinkedList {
+  constructor(value) {
+    const newNode = new Node(value);
+    this.head = newNode;
+    this.length = 1;
+  }
+
+  printList() {
+    let temp = this.head;
+    let output = "";
+    if (temp === null) {
+      console.log("empty");
+      return;
+    }
+    while (temp !== null) {
+      output += String(temp.value);
+      temp = temp.next;
+      if (temp !== null) {
+        output += " -> ";
+      }
+    }
+    console.log(output);
+  }
+
+  getHead() {
+    if (this.head === null) {
+      console.log("Head: null");
+    } else {
+      console.log("Head: " + this.head.value);
+    }
+  }
+
+  getLength() {
+    console.log("Length: " + this.length);
+  }
+
+  makeEmpty() {
+    this.head = null;
+    this.length = 0;
+  }
+
+  push(value) {
+    const newNode = new Node(value);
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next !== null) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+    this.length++;
+  }
+
+  // WRITE THE REVERSEBETWEEN METHOD HERE
+
+  reverseBetween(m, n) {
+    if (this.head === null) return;
+    const dummy = new Node(0);
+    dummy.next = this.head;
+    let prev = dummy;
+    for (let i = 0; i < m; i++) {
+      prev = prev.next;
+    }
+    let current = prev.next;
+    for (let i = 0; i < n - m; i++) {
+      const temp = current.next;
+      current.next = temp.next;
+      temp.next = prev.next;
+      prev.next = temp;
+    }
+    this.head = dummy.next;
+  }
+}
+
+let myLinkedList6 = new LinkedList(1);
+myLinkedList6.push(2);
+myLinkedList6.push(3);
+myLinkedList6.push(4);
+myLinkedList6.push(5);
+console.log("Original list:");
+myLinkedList6.printList();
+console.log("----------------");
+
+const m = 2;
+const n = 4;
+myLinkedList6.reverseBetween(m, n);
+
+console.log(`\nList after reversing between indexes of ${m} and ${n}:`);
+myLinkedList6.printList();
+
+/*
+
+8. LL: Swap Pairs 
+Write a method called swapPairs that swaps every two adjacent nodes in a singly linked list.
+
+If the list has an odd number of nodes, the last node remains in place.
+
+You may NOT just swap values. You must actually swap the nodes.
+
+🧪 Examples:
+
+Input: 1 -> 2 -> 3 -> 4
+Output: 2 -> 1 -> 4 -> 3
+ 
+Input: 1 -> 2 -> 3 -> 4 -> 5
+Output: 2 -> 1 -> 4 -> 3 -> 5
+ 
+Input: 1
+Output: 1
+ 
+Input: empty list
+Output: empty list
+
+📘 What This Exercise Is Designed to Teach
+
+How to manipulate pointers in a linked list
+
+Working with dummy nodes to simplify head management
+
+Understanding traversal and pointer updates
+
+Practicing while loops for in-place modification.
+
+*/
+
+class LinkedList {
+  constructor(value) {
+    const newNode = new Node(value);
+    this.head = newNode;
+    this.length = 1;
+  }
+
+  printList() {
+    let temp = this.head;
+    let output = "";
+    if (temp === null) {
+      console.log("empty");
+      return;
+    }
+    while (temp !== null) {
+      output += String(temp.value);
+      temp = temp.next;
+      if (temp !== null) {
+        output += " -> ";
+      }
+    }
+    console.log(output);
+  }
+
+  getHead() {
+    if (this.head === null) {
+      console.log("Head: null");
+    } else {
+      console.log("Head: " + this.head.value);
+    }
+  }
+
+  getLength() {
+    console.log("Length: " + this.length);
+  }
+
+  makeEmpty() {
+    this.head = null;
+    this.length = 0;
+  }
+
+  push(value) {
+    const newNode = new Node(value);
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next !== null) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+    this.length++;
+  }
+
+  swapPairs() {
+    //   +===================================================+
+    //   |               WRITE YOUR CODE HERE                |
+    //   | Description:                                      |
+    //   | - Swaps every two adjacent nodes in the linked    |
+    //   |   list.                                           |
+    //   | - Modifies the list in place without creating     |
+    //   |   new nodes.                                      |
+    //   |                                                   |
+    //   | Behavior:                                         |
+    //   | - A dummy node is used to simplify swapping from  |
+    //   |   the head of the list.                           |
+    //   | - In each loop iteration, two nodes (`first` and  |
+    //   |   `second`) are swapped using pointer changes.    |
+    //   | - The `previous` pointer tracks the last node     |
+    //   |   before the swapped pair.                        |
+    //   | - Updates `this.head` to the new first node.      |
+    //   +===================================================+
+    if (this.head === null) return;
+    const dummy = new Node(0);
+    dummy.next = this.head;
+    let prev = dummy;
+    let first = this.head;
+    while (first !== null && first.next !== null) {
+      let second = first.next;
+      prev.next = second;
+      first.next = second.next;
+      second.next = first;
+      prev = first;
+      first = first.next;
+    }
+    this.head = dummy.next;
+  }
+}
+
+// Test cases:
+console.log("\nTest Case 1: Even number of nodes");
+const myLinkedList7 = new LinkedList(1);
+myLinkedList7.push(2);
+myLinkedList7.push(3);
+myLinkedList7.push(4);
+console.log("BEFORE:");
+myLinkedList7.printList();
+myLinkedList7.swapPairs();
+console.log("AFTER:");
+myLinkedList7.printList();
+
+console.log("\nTest Case 2: Odd number of nodes");
+const myLinkedList8 = new LinkedList(1);
+myLinkedList8.push(2);
+myLinkedList8.push(3);
+myLinkedList8.push(4);
+myLinkedList8.push(5);
+console.log("BEFORE:");
+myLinkedList8.printList();
+myLinkedList8.swapPairs();
+console.log("AFTER:");
+myLinkedList8.printList();
+
+console.log("\nTest Case 3: Single node");
+const myLinkedList9 = new LinkedList(1);
+console.log("BEFORE:");
+myLinkedList9.printList();
+myLinkedList9.swapPairs();
+console.log("AFTER:");
+myLinkedList9.printList();
+
+console.log("\nTest Case 4: Empty list");
+const myLinkedList10 = new LinkedList(1);
+myLinkedList10.makeEmpty();
+console.log("BEFORE:");
+myLinkedList10.printList();
+myLinkedList10.swapPairs();
+console.log("AFTER:");
+myLinkedList10.printList();
